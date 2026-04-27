@@ -11,13 +11,14 @@ class Game {
 	std::vector<Background*> bgs;
 	std::vector<Level*> levels;
 	Background* bg;
+	Player* player;
 	int currentLevel;
 	bool playerInterract;
 public:
 	Game();
 	~Game();
 
-	void Update(float dt, float now, Player* player, std::vector<sf::Event> events);
+	void Update(float dt, float now, std::vector<sf::Event> events);
 
-	void Render(sf::RenderWindow& window, Player* player);
+	void Render(sf::RenderWindow& window);
 };

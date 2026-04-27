@@ -5,6 +5,7 @@
 
 Game::Game() : currentLevel(0) {
     bg = new Background();
+    player = new Player();
 }
 
 Game::~Game() {
@@ -21,14 +22,17 @@ Game::~Game() {
     if (bg) {
         delete bg; bg = nullptr;
     }
+    if (player) {
+        delete player; player = nullptr;
+    }
 }
 
-void Game::Update(float dt, float now, Player* player, std::vector<sf::Event> events) {
+void Game::Update(float dt, float now, std::vector<sf::Event> events) {
     player->Update(dt, now, events);
     
 }
 
-void Game::Render(sf::RenderWindow& window, Player* player) {
+void Game::Render(sf::RenderWindow& window) {
     //levels[currentLevel]->Render(window);
     bg->Render(window);
     player->Render(window);

@@ -1,8 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <optional>
-
-
+#include "Game.h"
 
 int main() {
     // Récupère la résolution native de l'écran
@@ -16,6 +15,7 @@ int main() {
 
     //Setting* setting = new Setting();
 
+    Game game;
     sf::Clock clock;
     float now = 0.0f;
     float gameTime = 0.0f;
@@ -34,17 +34,15 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-            events.push_back(event);
+            events.push_back(*event);
         }
 
         // Efface l'écran avec une couleur
         window.clear(sf::Color::Black);
 
 
-        // Draw the sprite
-
-
-        // Update the window
+        game.Update(dt, now, events);
+        game.Render(window);
         window.display();
     }
 

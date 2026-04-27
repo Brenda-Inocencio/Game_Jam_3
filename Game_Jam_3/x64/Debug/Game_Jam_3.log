@@ -1,20 +1,2 @@
-﻿  Game.cpp
-  Game_Jam_3.cpp
-C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\include\SFML\Window\Event.inl(45,19): error C2338: static_assert failed: 'TEventSubtype must be a subtype of sf::Event'
-  (compiler le fichier source 'Game_Jam_3.cpp')
-      C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\include\SFML\Window\Event.inl(45,19):
-      le contexte d’instanciation du modèle (le plus ancien) est
-          C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Game_Jam_3.cpp(37,30):
-          voir la référence à l'instanciation de la fonction modèle 'sf::Event::Event<std::optional<sf::Event>>(const TEventSubtype &)' en cours de compilation
-          with
-          [
-              TEventSubtype=std::optional<sf::Event>
-          ]
-  
-  Level.cpp
-C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(25,4): warning C4150: suppression de pointeur vers type incomplet 'Objects' ; aucun destructeur appelé
-      C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.h(5,7):
-      voir la déclaration de 'Objects'
-  
-  Player.cpp
-  Génération de code en cours...
+﻿  Background.cpp
+  Game_Jam_3.vcxproj -> C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\x64\Debug\Game_Jam_3.exe
