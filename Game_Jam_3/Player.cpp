@@ -19,6 +19,9 @@ dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(fa
 	
 }
 
+Player::~Player() {
+}
+
 void Player::Render(sf::RenderWindow& window) {
 	rect.setPosition(sf::Vector2f(posx, posy));
 	window.draw(rect);

@@ -36,8 +36,6 @@ public:
 	Player();
 	~Player();
 
-	inline int GetHP() { return healPoints; }
-
 	void Render(sf::RenderWindow& window);
 	void Update(float dt, float now, std::vector<sf::Event>& events);
 	void Jump(float dt, float now, State& newState);
