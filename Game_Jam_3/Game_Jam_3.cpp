@@ -5,10 +5,10 @@
 
 int main() {
     // Récupère la résolution native de l'écran
-    sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+    sf::VideoMode fullscreenMode = sf::VideoMode::getDesktopMode();
 
     // Création de la fenêtre en plein écran
-    sf::RenderWindow window(desktopMode, "Plein écran SFML", sf::Style::Default);
+    sf::RenderWindow window(fullscreenMode, "Plein écran SFML", sf::Style::Default);
 
     // Limite le framerate pour éviter une utilisation CPU/GPU excessive
     window.setFramerateLimit(60);

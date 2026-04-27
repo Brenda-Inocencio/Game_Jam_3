@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 class Background {
-	sf::RectangleShape rect;
+	sf::RectangleShape bg;
 	float width;
 	float height;
 public:

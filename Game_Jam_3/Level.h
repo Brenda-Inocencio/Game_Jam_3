@@ -2,13 +2,13 @@
 #include <SFML/Graphics.hpp>
 
 class Background;
-class Objects;
+class Trap;
 
 class Level {
 	Background* levelBg;
 public:
-	std::vector<Objects*> objs;
-
+	std::vector<Trap*> traps;
+public:
 	Level(Background* bg, int lvl);
 	~Level();
 

@@ -132,12 +132,14 @@
     <ClCompile Include="Game_Jam_3.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Trap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Trap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

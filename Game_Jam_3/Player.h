@@ -5,6 +5,7 @@
 
 struct Texture;
 struct Sprite;
+class Trap;
 
 class Player {
 	float width;
@@ -37,12 +38,12 @@ public:
 	~Player();
 
 	void Render(sf::RenderWindow& window);
-	void Update(float dt, float now, std::vector<sf::Event>& events);
+	void Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*> traps);
 	void Jump(float dt, float now, State& newState);
 	void Fall(float dt, float now, State& newState);
-	/*bool DownCollide(std::vector<Block*>& blocks);
-	bool SideCollide(std::vector<Block*>& blocks);
-	bool UpCollide(std::vector<Block*>& blocks);
-	void VoidCollide(std::vector<Block*>& blocks);*/
-	//void ChangeLevel(std::vector<Block*>& blocks);
+	bool DownCollide(std::vector<Trap*>& traps);
+	bool SideCollide(std::vector<Trap*>& traps);
+	bool UpCollide(std::vector<Trap*>& traps);
+	void VoidCollide(std::vector<Trap*>& traps);
+	void ChangeLevel(std::vector<Trap*>& traps);
 };

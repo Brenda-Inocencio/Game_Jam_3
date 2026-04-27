@@ -1,6 +1,7 @@
 #define HITBOX
 
 #include "Player.h"
+#include "Trap.h"
 #include <iostream>
 
 #define TIME_JUMP 0.75f
@@ -11,7 +12,7 @@
 #define JUMP_SPEED 300.f
 #define FALL_SPEED 300.f
 
-Player::Player() : width(120.f), height(150.f), posx(200.f), posy(1300.f), speed(0.f), jumpingTime(0.f),
+Player::Player() : width(120.f), height(150.f), posx(200.f), posy(500.f), speed(0.f), jumpingTime(0.f),
 dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(false) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
@@ -149,7 +150,7 @@ Player::State Player::processEvent(std::vector<sf::Event>& events, float now) {
 	return newState;
 }
 
-void Player::Update(float dt, float now, std::vector<sf::Event>& events) {
+void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*> traps) {
 	State newState = processEvent(events, now);
 
 	if (moveLeft && !moveRight) {
@@ -165,29 +166,29 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events) {
 	switch (state) {
 	case Player::IDLE:
 		isJump = false;
-		/*if (!DownCollide(blocks)) {
+		if (!DownCollide(traps)) {
 			newState = FALLING;
-		}*/
+		}
 		break;
 	case Player::JUMPING:
 		if (isJump) {
 			isJump = false;
 		}
-		/*if (UpCollide(blocks)) {
+		if (UpCollide(traps)) {
 			newState = FALLING;
-		}*/
-		else {
-			//Jump(dt, now, newState, blocks);
 		}
-		/*if (SideCollide(blocks)) {
+		else {
+			Jump(dt, now, newState, traps);
+		}
+		if (SideCollide(traps)) {
 			newState = IDLE;
-		}*/
+		}
 		break;
 	case Player::FALLING:
-		//Fall(dt, now, newState, blocks);
-		/*if (SideCollide(blocks)) {
+		Fall(dt, now, newState, traps);
+		if (SideCollide(traps)) {
 			newState = IDLE;
-		}*/
+		}
 		break;
 	default:
 		break;
@@ -202,22 +203,22 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events) {
 	state = newState;
 }
 
-//void Player::Jump(float dt, float now, State& newState, std::vector<Block*> blocks) {
-//	if (now - jumpingTime <= TIME_JUMP) {
-//		if (moveLeft && !moveRight) {
-//			speed = -PLAYER_SPEED;
-//		}
-//		else if (moveRight && !moveLeft) {
-//			speed = PLAYER_SPEED;
-//		}
-//		posy -= JUMP_SPEED * dt;
-//		posx += speed * dt;
-//	}
-//	else {
-//		newState = FALLING;
-//	}
-//}
-//
+void Player::Jump(float dt, float now, State& newState, std::vector<Trap*> traps) {
+	if (now - jumpingTime <= TIME_JUMP) {
+		if (moveLeft && !moveRight) {
+			speed = -PLAYER_SPEED;
+		}
+		else if (moveRight && !moveLeft) {
+			speed = PLAYER_SPEED;
+		}
+		posy -= JUMP_SPEED * dt;
+		posx += speed * dt;
+	}
+	else {
+		newState = FALLING;
+	}
+}
+
 //void Player::Fall(float dt, float now, State& newState, std::vector<Block*> blocks) {
 //	if (!DownCollide(blocks)) {
 //		posy += FALL_SPEED * dt;
@@ -229,21 +230,21 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events) {
 //	}
 //}
 
-//bool Player::DownCollide(std::vector<Block*>& blocks) {
-//	for (auto* bl : blocks) {
-//		if (bl->GetBlockType() == "Block") {
-//			if (bl->GetPosY() >= posy && bl->GetPosY() <= posy + height) {
-//				if ((posx >= bl->GetPosX() && posx <= bl->GetRightX()) ||
-//					(posx + width <= bl->GetRightX() && posx + width >= bl->GetPosX())) {
-//
-//					posy = bl->GetPosY() - height;
-//					return true;
-//				}
-//			}
-//		}
-//	}
-//	return false;
-//}
+bool Player::DownCollide(std::vector<Trap*>& traps) {
+	for (auto* t : traps) {
+		if (t->GetType() == "GroundUntrapped") {
+			if (t->GetPosY() >= posy && t->GetPosY() <= posy + height) {
+				if ((posx >= t->GetPosX() && posx <= t->GetRightX()) ||
+					(posx + width <= t->GetRightX() && posx + width >= t->GetPosX())) {
+
+					posy = t->GetPosY() - height;
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
 
 //bool Player::SideCollide(std::vector<Block*>& blocks) {
 //	for (auto* bl : blocks) {
