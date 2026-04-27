@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+
+*.dwo
+
+Game_Jam_1/.vs
+/.vs
