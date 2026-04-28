@@ -1,5 +1,5 @@
 Next Level
-levels/level1.txt
+levels/level2.txt
 
 XXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXX
@@ -8,8 +8,8 @@ XXXXXXXXXXXXXXX
 ---------------
 ---------------
 ---------------
-------C--------
--S-------1--E--
-XXXVXXgGXXGXXXX
-XXXVXXgGXXGXXXX
-XXXVXXgGXXGXXXX
+----C----------
+-S--P---CP--E--
+XXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXX

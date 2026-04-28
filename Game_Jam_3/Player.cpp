@@ -7,7 +7,7 @@
 
 #define TIME_JUMP 0.5f
 #define TIME_INVULNERABLE 2.f
-#define PLAYER_SPEED 150.f
+#define PLAYER_SPEED 200.f
 #define JUMP_SPEED 200.f
 #define FALL_SPEED 150.f
 
