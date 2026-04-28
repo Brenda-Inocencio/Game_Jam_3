@@ -2,29 +2,42 @@
 
 #include "Player.h"
 #include "Trap.h"
+#include <SFML/Graphics/Texture.hpp>
 #include <iostream>
 
-#define TIME_JUMP 0.75f
-#define TIME_ATTACK 0.5f
-#define TIME_DODGE 0.2f
+#define TIME_JUMP 0.5f
 #define TIME_INVULNERABLE 2.f
 #define PLAYER_SPEED 150.f
-#define JUMP_SPEED 300.f
-#define FALL_SPEED 300.f
+#define JUMP_SPEED 200.f
+#define FALL_SPEED 150.f
 
-Player::Player() : width(120.f), height(150.f), posx(200.f), posy(900.f), speed(0.f), jumpingTime(0.f),
+Player::Player() : width(64.f), height(64.f), posx(200.f), posy(600.f), speed(0.f), jumpingTime(0.f),
 dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(false) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
-	rect.setFillColor(sf::Color::Yellow);	
+	rect.setFillColor(sf::Color::Yellow);
+
+	tex = new sf::Texture("assets/chicken.png");
+	sprite = new sf::Sprite(*tex);
+	sprite->setScale(sf::Vector2f(0.65, 0.65));
+	sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
+
+
 }
 
 Player::~Player() {
+	if (tex) {
+		delete tex;
+		tex = nullptr;
+	}
+	if (sprite) {
+		delete sprite;
+		sprite = nullptr;
+	}
 }
 
 void Player::Render(sf::RenderWindow& window) {
-	rect.setPosition(sf::Vector2f(posx, posy));
-	window.draw(rect);
+	window.draw(*sprite);
 
 #ifdef HITBOX
 	// Hitbox verte
@@ -149,15 +162,18 @@ Player::State Player::processEvent(std::vector<sf::Event>& events, float now) {
 	return newState;
 }
 
-void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps) {
-	State newState = processEvent(events, now);
 
-	if (moveLeft && !moveRight && !SideCollide(traps)) {
+void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps) {
+	rect.setPosition(sf::Vector2f(posx, posy));
+	sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
+	State newState = processEvent(events, now);
+	SideCollide(traps);
+	if (moveLeft && !moveRight) {
 		speed = -PLAYER_SPEED;
 		posx += speed * dt;
 
 	}
-	else if (moveRight && !moveLeft && !SideCollide(traps)) {
+	else if (moveRight && !moveLeft) {
 		speed = PLAYER_SPEED;
 		posx += speed * dt;
 	}
@@ -238,7 +254,7 @@ bool Player::DownCollide(std::vector<Trap*>& traps) {
 	return false;
 }
 
-bool Player::SideCollide(std::vector<Trap*>& traps) {
+void Player::SideCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
 		if (t->GetType() == "GroundUntrapped") {
 			if (speed > 0) {
@@ -246,7 +262,7 @@ bool Player::SideCollide(std::vector<Trap*>& traps) {
 					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
 
 					posx = t->GetPosX() - width - 2;
-					return true;
+					
 				}
 			}
 			else if (speed < 0) {
@@ -254,20 +270,20 @@ bool Player::SideCollide(std::vector<Trap*>& traps) {
 					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
 
 					posx = t->GetRightX() + 1;
-					return true;
+					
 				}
 			}
 		}
 	}
 	if (posx <= 0) {
 		posx = 0;
-		return true;
+
 	}
 	else if (posx + width >= 1080) {
 		posx = 1080 - width;
-		return true;
+
 	}
-	return false;
+
 }
 
 //bool Player::UpCollide(std::vector<Block*>& blocks) {
