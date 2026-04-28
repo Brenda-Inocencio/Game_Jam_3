@@ -1,0 +1,15 @@
+Next Level
+levels/level3.txt
+
+XXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXX
+---------------
+---------------
+---------------
+---------------
+----Mg---------
+-S---g---DP-E--
+XXXXVXXXXXXXXXX
+XXXXVXXXXXXXXXX
+XXXXVXXXXXXXXXX

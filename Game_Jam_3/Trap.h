@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+struct Texture;
+struct Sprite;
 
 class Trap {
 protected:
@@ -11,6 +13,9 @@ protected:
 	float height;
 	std::string type;
 	sf::RectangleShape rect;
+
+	sf::Texture* tex;
+	sf::Sprite* sprite;
 public:
 	bool isActive;
 public:

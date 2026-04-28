@@ -1,19 +1,25 @@
 #include "Trap.h"
 
 
-Trap::Trap() : posx(0.f), posy(0.f), posCharacter(0), lineCharacter(0), width(128.f), height(90), type("Trap"), isActive(false) {
+Trap::Trap() : posx(0.f), posy(0.f), width(128.f), height(90), type("Trap"), isActive(false) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
 	rect.setFillColor(sf::Color::Transparent);
 	rect.setOutlineColor(sf::Color::Blue);
 	rect.setOutlineThickness(2.f);
+
+	tex = new sf::Texture("assets/pick.png");
+	sprite = new sf::Sprite(*tex);
+	sprite->setScale(sf::Vector2f(0.65, 0.65));
+	sprite->setPosition(sf::Vector2f( - 1000, - 1000));
+
 }
 
 Trap::~Trap() {}
 
 void Trap::Render(sf::RenderWindow& window) {
 	window.draw(rect);
-}
+	window.draw(*sprite);
 
 void Trap::Update() {
 	if (type == "GroundTrapped") {
@@ -53,9 +59,16 @@ Egg::Egg(sf::Vector2f(pos), int i, int ln) {
 	lineCharacter = ln;
 	posx = pos.x;
 	posy = pos.y;
+	width = 72;
+	height = 162;
 	type = "Egg";
-	rect.setFillColor(sf::Color::Cyan);
+	rect.setSize(sf::Vector2f(width - 22, height));
+	rect.setFillColor(sf::Color::Transparent);
 	rect.setPosition(pos);
+	tex = new sf::Texture("assets/egg.png");
+	sprite = new sf::Sprite(*tex);
+	sprite->setScale(sf::Vector2f(0.70, 0.70));
+	sprite->setPosition(sf::Vector2f(posx, posy));
 }
 
 Pike::Pike(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
@@ -67,6 +80,10 @@ Pike::Pike(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
 	type = "Pike";
 	rect.setFillColor(sf::Color::Red);
 	rect.setPosition(pos);
+	sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
+	sprite->setScale(sf::Vector2f(0.65, 0.65));
+	sprite->setPosition(sf::Vector2f(-posx, posy));
+
 }
 
 Tramplin::Tramplin(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
