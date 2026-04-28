@@ -51,6 +51,8 @@ Level::Level(std::string path1) : nextLevel(""), prevLevel("") {
 				}
 				else if (character == "S") {
 					traps.push_back(new Spawn(sf::Vector2f(i * 128, lineNumber * 90), i, lineNumber));
+					spawnPosX = i * 128;
+					spawnPosY = lineNumber * 90;
 				}
 				else if (character == "C") {
 					traps.push_back(new TrapTrigger(sf::Vector2f(i * 128, lineNumber * 90), 0, i, lineNumber));

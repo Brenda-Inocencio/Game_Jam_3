@@ -5,11 +5,11 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <iostream>
 
-#define TIME_JUMP 0.25f
+#define TIME_JUMP 0.35f
 #define TIME_INVULNERABLE 2.f
-#define PLAYER_SPEED 150.f
-#define JUMP_SPEED 150.f
-#define FALL_SPEED 100.f
+#define JUMP_SPEED 400.f
+#define FALL_SPEED 350.f
+#define PLAYER_SPEED 250.f
 
 Player::Player() : width(64.f), height(64.f), posx(150.f), posy(800.f), speed(0.f), jumpingTime(0.f),
 dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(false) {
@@ -203,6 +203,8 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::ve
 	}
 
 	VoidCollide(traps);
+	PikeCollide(traps);
+	EggCollide(traps);
 
 	/*if (now - vulnerableTime >= TIME_INVULNERABLE) {
 		isVulnerable = true;
@@ -316,7 +318,34 @@ bool Player::UpCollide(std::vector<Trap*>& traps) {
 void Player::VoidCollide(std::vector<Trap*>& traps) {
 	if (posy >= 1080) {
 		isAlive = false;
+		Respawn();
 	}
+}
+
+void Player::PikeCollide(std::vector<Trap*>& traps) {
+	for (auto* t : traps) {
+		if (t->GetType() == "Pike" && t->isActive) {
+			if (posx + width >= t->GetPosX() && posx <= t->GetRightX() &&
+				posy + height >= t->GetPosY() && posy <= t->GetBottomY()) {
+				isAlive = false;
+				Respawn();
+				return;
+			}
+		}	
+	}
+}
+
+void Player::EggCollide(std::vector<Trap*>& traps){
+	for (auto* t : traps) {
+		if (t->GetType() == "Egg") {
+			if (posx + width >= t->GetPosX() && posx <= t->GetRightX() &&
+				posy + height >= t->GetPosY() && posy <= t->GetBottomY()) {
+				t->isActive = true;
+				return;
+			}
+		}
+	}
+
 }
 
 void Player::TrapCollide(std::vector<Trap*>& traps, Trap* t) {
@@ -337,5 +366,26 @@ void Player::TrapCollide(std::vector<Trap*>& traps, Trap* t) {
 		}
 	}
 	t->isActive = true;
+}
+
+void Player::SetSpawn(float x, float y) {
+	spawnPosX = x;
+	spawnPosY = y;
+}
+
+void Player::Respawn() {
+	posx = spawnPosX;
+	posy = spawnPosY;
+	speed = 0.f;
+	moveLeft = false;
+	moveRight = false;
+	isJump = false;
+	state = IDLE;
+	isAlive = true;
+
+	rect.setPosition(sf::Vector2f(posx, posy));
+	if (sprite) {
+		sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
+	}
 }
 

@@ -13,6 +13,9 @@ class Player {
 	float posx;
 	float posy;
 
+	float spawnPosX;
+	float spawnPosY;
+
 	sf::Texture* tex;
 	sf::Sprite* sprite;
 
@@ -53,4 +56,9 @@ public:
 	void VoidCollide(std::vector<Trap*>& traps);
 	void ChangeLevel(std::vector<Trap*>& traps);
 	void TrapCollide(std::vector<Trap*>& traps, Trap* t);
+	void PikeCollide(std::vector<Trap*>& traps);
+	void EggCollide(std::vector<Trap*>& traps);
+
+	void SetSpawn(float x, float y);
+	void Respawn();
 };

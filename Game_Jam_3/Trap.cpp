@@ -20,6 +20,7 @@ Trap::~Trap() {}
 void Trap::Render(sf::RenderWindow& window) {
 	window.draw(rect);
 	window.draw(*sprite);
+}
 
 void Trap::Update() {
 	if (type == "GroundTrapped") {
@@ -82,7 +83,7 @@ Pike::Pike(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
 	rect.setPosition(pos);
 	sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
 	sprite->setScale(sf::Vector2f(0.65, 0.65));
-	sprite->setPosition(sf::Vector2f(-posx, posy));
+	sprite->setPosition(sf::Vector2f(posx, posy));
 
 }
 
