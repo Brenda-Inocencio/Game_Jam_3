@@ -5,7 +5,7 @@
 
 Game::Game() : currentLevel(0) {
     bg = new Background();
-    levels.push_back(new Level(bg, 0));
+    levels.push_back(new Level("levels/level0.txt"));
     player = new Player();
 }
 
@@ -28,6 +28,7 @@ void Game::Update(float dt, float now, std::vector<sf::Event> events) {
 }
 
 void Game::Render(sf::RenderWindow& window) {
+    bg->Render(window);
     levels[currentLevel]->Render(window);
     player->Render(window);
 }
