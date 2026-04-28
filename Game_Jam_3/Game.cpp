@@ -15,11 +15,6 @@ Game::~Game() {
             delete levels[i]; levels[i] = nullptr;
         }
     }
-    for (int i = 0; i < bgs.size(); i++) {
-        if (bgs[i]) {
-            delete bgs[i]; bgs[i] = nullptr;
-        }
-    }
     if (bg) {
         delete bg; bg = nullptr;
     }
@@ -29,7 +24,7 @@ Game::~Game() {
 }
 
 void Game::Update(float dt, float now, std::vector<sf::Event> events) {
-    player->Update(dt, now, events);
+    player->Update(dt, now, events, levels[currentLevel]->traps);
 }
 
 void Game::Render(sf::RenderWindow& window) {

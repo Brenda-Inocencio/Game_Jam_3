@@ -8,7 +8,6 @@ class Background;
 class Level;
 
 class Game {
-	std::vector<Background*> bgs;
 	std::vector<Level*> levels;
 	Background* bg;
 	Player* player;

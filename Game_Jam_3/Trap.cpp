@@ -1,7 +1,7 @@
 #include "Trap.h"
 
 
-Trap::Trap() : posx(0.f), posy(0.f), width(100.f), height(200), type("Trap"), isActive(false) {
+Trap::Trap() : posx(0.f), posy(0.f), width(48.f), height(72), type("Trap"), isActive(false) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
 	rect.setFillColor(sf::Color::Transparent);
@@ -23,6 +23,10 @@ void Trap::Render(sf::RenderWindow& window) {
 
 
 Ground::Ground(sf::Vector2f(pos), sf::Vector2f(size), int _type) {
+	posx = pos.x;
+	posy = pos.y;
+	width = size.x;
+	height = size.y;
 	type = "Ground";
 	if (_type == 1) {
 		type += "Trapped";

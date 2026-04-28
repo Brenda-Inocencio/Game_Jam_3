@@ -12,12 +12,11 @@
 #define JUMP_SPEED 300.f
 #define FALL_SPEED 300.f
 
-Player::Player() : width(120.f), height(150.f), posx(200.f), posy(500.f), speed(0.f), jumpingTime(0.f),
+Player::Player() : width(120.f), height(150.f), posx(200.f), posy(900.f), speed(0.f), jumpingTime(0.f),
 dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(false) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
-	rect.setFillColor(sf::Color::Yellow);
-	
+	rect.setFillColor(sf::Color::Yellow);	
 }
 
 Player::~Player() {
@@ -150,15 +149,15 @@ Player::State Player::processEvent(std::vector<sf::Event>& events, float now) {
 	return newState;
 }
 
-void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*> traps) {
+void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps) {
 	State newState = processEvent(events, now);
 
-	if (moveLeft && !moveRight) {
+	if (moveLeft && !moveRight && !SideCollide(traps)) {
 		speed = -PLAYER_SPEED;
 		posx += speed * dt;
 
 	}
-	else if (moveRight && !moveLeft) {
+	else if (moveRight && !moveLeft && !SideCollide(traps)) {
 		speed = PLAYER_SPEED;
 		posx += speed * dt;
 	}
@@ -174,21 +173,15 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::ve
 		if (isJump) {
 			isJump = false;
 		}
-		if (UpCollide(traps)) {
+		/*if (UpCollide(traps)) {
 			newState = FALLING;
-		}
+		}*/
 		else {
 			Jump(dt, now, newState, traps);
-		}
-		if (SideCollide(traps)) {
-			newState = IDLE;
 		}
 		break;
 	case Player::FALLING:
 		Fall(dt, now, newState, traps);
-		if (SideCollide(traps)) {
-			newState = IDLE;
-		}
 		break;
 	default:
 		break;
@@ -203,7 +196,7 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::ve
 	state = newState;
 }
 
-void Player::Jump(float dt, float now, State& newState, std::vector<Trap*> traps) {
+void Player::Jump(float dt, float now, State& newState, std::vector<Trap*>& traps) {
 	if (now - jumpingTime <= TIME_JUMP) {
 		if (moveLeft && !moveRight) {
 			speed = -PLAYER_SPEED;
@@ -219,16 +212,15 @@ void Player::Jump(float dt, float now, State& newState, std::vector<Trap*> traps
 	}
 }
 
-//void Player::Fall(float dt, float now, State& newState, std::vector<Block*> blocks) {
-//	if (!DownCollide(blocks)) {
-//		posy += FALL_SPEED * dt;
-//		posx += speed * dt;
-//	}
-//	else {
-//		newState = IDLE;
-//		changeLevel = now;
-//	}
-//}
+void Player::Fall(float dt, float now, State& newState, std::vector<Trap*>& traps) {
+	if (!DownCollide(traps)) {
+		posy += FALL_SPEED * dt;
+		posx += speed * dt;
+	}
+	else {
+		newState = IDLE;
+	}
+}
 
 bool Player::DownCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
@@ -246,47 +238,37 @@ bool Player::DownCollide(std::vector<Trap*>& traps) {
 	return false;
 }
 
-//bool Player::SideCollide(std::vector<Block*>& blocks) {
-//	for (auto* bl : blocks) {
-//		if (bl->GetBlockType() == "Block" || bl->GetBlockType() == "Item") {
-//			if (speed > 0) {
-//				if (posx + width >= bl->GetPosX() && posx + width <= bl->GetRightX() &&
-//					bl->GetPosY() >= posy && bl->GetBottomY() <= posy + height) {
-//					if (bl->GetBlockType() == "Block") {
-//						posx = bl->GetPosX() - width - 2;
-//						return true;
-//					}
-//					else if (bl->GetBlockType() == "Item") {
-//						if (!bl->isUse) {
-//							healPoints = 100;
-//							bl->isUse = true;
-//						}
-//					}
-//				}
-//			}
-//			else if (speed < 0) {
-//				if (posx <= bl->GetRightX() && posx >= bl->GetPosX() &&
-//					bl->GetPosY() >= posy && bl->GetBottomY() <= posy + height) {
-//					if (bl->GetBlockType() == "Block") {
-//						posx = bl->GetRightX() + 1;
-//						return true;
-//					}
-//					else if (bl->GetBlockType() == "Item") {
-//						if (!bl->isUse) {
-//							healPoints = 100;
-//							bl->isUse = true;
-//						}
-//					}
-//				}
-//			}
-//		}
-//		else if (posx <= 0) {
-//			posx = 0;
-//			return true;
-//		}
-//	}
-//	return false;
-//}
+bool Player::SideCollide(std::vector<Trap*>& traps) {
+	for (auto* t : traps) {
+		if (t->GetType() == "GroundUntrapped") {
+			if (speed > 0) {
+				if (posx + width >= t->GetPosX() && posx + width <= t->GetRightX() &&
+					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
+
+					posx = t->GetPosX() - width - 2;
+					return true;
+				}
+			}
+			else if (speed < 0) {
+				if (posx <= t->GetRightX() && posx >= t->GetPosX() &&
+					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
+
+					posx = t->GetRightX() + 1;
+					return true;
+				}
+			}
+		}
+	}
+	if (posx <= 0) {
+		posx = 0;
+		return true;
+	}
+	else if (posx + width >= 1080) {
+		posx = 1080 - width;
+		return true;
+	}
+	return false;
+}
 
 //bool Player::UpCollide(std::vector<Block*>& blocks) {
 //	for (auto* bl : blocks) {

@@ -38,9 +38,9 @@ public:
 	~Player();
 
 	void Render(sf::RenderWindow& window);
-	void Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*> traps);
-	void Jump(float dt, float now, State& newState);
-	void Fall(float dt, float now, State& newState);
+	void Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps);
+	void Jump(float dt, float now, State& newState, std::vector<Trap*>& traps);
+	void Fall(float dt, float now, State& newState, std::vector<Trap*>& traps);
 	bool DownCollide(std::vector<Trap*>& traps);
 	bool SideCollide(std::vector<Trap*>& traps);
 	bool UpCollide(std::vector<Trap*>& traps);
