@@ -28,6 +28,30 @@ public:
 
 class Ground : public Trap {
 public:
-	Ground(sf::Vector2f(pos), sf::Vector2f(size), sf::Vector2f(_trapPos), int _type, bool _isAcvtive);
+	Ground(sf::Vector2f(pos), sf::Vector2f(_trapPos), int _type, bool _isAcvtive);
 	~Ground() {};
+};
+
+class Egg : public Trap {
+public:
+	Egg(sf::Vector2f(pos));
+	~Egg() {};
+};
+
+class Pike : public Trap {
+public:
+	Pike(sf::Vector2f(pos), sf::Vector2f(_trapPos), int _type, bool _isAcvtive);
+	~Pike() {};
+};
+
+class Tramplin : public Trap {
+public:
+	Tramplin(sf::Vector2f(pos), sf::Vector2f(_trapPos), int _type, bool _isAcvtive);
+	~Tramplin() {};
+};
+
+class Spawn : public Trap {
+public:
+	Spawn(sf::Vector2f(pos));
+	~Spawn() {};
 };

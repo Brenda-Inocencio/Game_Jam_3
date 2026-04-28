@@ -32,31 +32,31 @@ Level::Level(std::string path1) : nextLevel(""), prevLevel("") {
 					}
 				}
 				else if (character == "X") {
-					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(128, 90), sf::Vector2f(0, 0), 0, false));
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(0, 0), 0, false));
 				}
 				else if (character == "-") {
 					continue; //nothing
 				}
 				else if (character == "E") {
-					//traps.push_back(new Egg());
+					traps.push_back(new Egg(sf::Vector2f(i * 128, lineNumber * 90)));
 				}
 				else if (character == "G") {
-					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(128, 90), sf::Vector2f(0, 0), 1, false)); // trap pos a changer
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(0, 0), 1, false)); // trap pos a changer
 				}
 				else if (character == "g") {
-					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(128, 90), sf::Vector2f(0, 0), 1, true)); // trap pos a changer
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(0, 0), 1, true)); // trap pos a changer
 				}
 				else if (character == "V") {
-					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(128, 90), sf::Vector2f(0, 0), 1, true));
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(0, 0), 1, true));
 				}
 				else if (character == "P") {
-					//traps.push_back(new Pike());
+					traps.push_back(new Pike(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(0, 0), 1, true));
 				}
 				else if (character == "T") {
-					//traps.push_back(new Tramplin());
+					traps.push_back(new Tramplin(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(0, 0), 1, true));
 				}
 				else if (character == "S") {
-					//traps.push_back(new Spawn());
+					traps.push_back(new Spawn(sf::Vector2f(i * 128, lineNumber * 90)));
 				}
 			}
 		}
@@ -80,7 +80,7 @@ void Level::Render(sf::RenderWindow& window) {
 
 void Level::Update(int currentLvl, int& newLvl, float dt, float now) {
 	for (int i = 0; i < traps.size(); i++) {
-		if (traps[i]->GetType() == "EGG") { //Next Level
+		if (traps[i]->GetType() == "Egg") { //Next Level
 			/*if (traps[i]->isNextLevel) {
 				newLvl = currentLvl + 1;
 				traps[i]->isNextLevel = false;

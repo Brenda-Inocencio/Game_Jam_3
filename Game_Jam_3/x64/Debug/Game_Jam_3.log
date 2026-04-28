@@ -9,6 +9,16 @@ C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(35,48):
 C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(35,48): warning C4244:         [
 C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(35,48): warning C4244:             T=float
 C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(35,48): warning C4244:         ]
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,63): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,63): warning C4244:         with
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,63): warning C4244:         [
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,63): warning C4244:             T=float
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,63): warning C4244:         ]
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,45): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,45): warning C4244:         with
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,45): warning C4244:         [
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,45): warning C4244:             T=float
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(41,45): warning C4244:         ]
 C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(44,66): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
 C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(44,66): warning C4244:         with
 C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(44,66): warning C4244:         [
@@ -39,6 +49,36 @@ C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(50,48):
 C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(50,48): warning C4244:         [
 C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(50,48): warning C4244:             T=float
 C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(50,48): warning C4244:         ]
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,64): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,64): warning C4244:         with
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,64): warning C4244:         [
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,64): warning C4244:             T=float
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,64): warning C4244:         ]
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,46): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,46): warning C4244:         with
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,46): warning C4244:         [
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,46): warning C4244:             T=float
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(53,46): warning C4244:         ]
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,68): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,68): warning C4244:         with
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,68): warning C4244:         [
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,68): warning C4244:             T=float
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,68): warning C4244:         ]
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,50): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,50): warning C4244:         with
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,50): warning C4244:         [
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,50): warning C4244:             T=float
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(56,50): warning C4244:         ]
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,65): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,65): warning C4244:         with
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,65): warning C4244:         [
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,65): warning C4244:             T=float
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,65): warning C4244:         ]
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,47): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,47): warning C4244:         with
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,47): warning C4244:         [
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,47): warning C4244:             T=float
+C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\Game_Jam_3\Level.cpp(59,47): warning C4244:         ]
   Trap.cpp
   Génération de code en cours...
   Game_Jam_3.vcxproj -> C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\x64\Debug\Game_Jam_3.exe

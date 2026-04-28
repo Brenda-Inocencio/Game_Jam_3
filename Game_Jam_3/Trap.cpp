@@ -9,8 +9,7 @@ Trap::Trap() : posx(0.f), posy(0.f), width(128.f), height(90), trapPos(0.f, 0.f)
 	rectTrap.setFillColor(sf::Color::Transparent);
 }
 
-Trap::~Trap() {
-}
+Trap::~Trap() {}
 
 void Trap::Render(sf::RenderWindow& window) {
 	window.draw(rect);
@@ -21,12 +20,10 @@ void Trap::Render(sf::RenderWindow& window) {
 }
 
 
-Ground::Ground(sf::Vector2f(pos), sf::Vector2f(size), sf::Vector2f(_trapPos), int _type, bool _isAcvtive) {
+Ground::Ground(sf::Vector2f(pos), sf::Vector2f(_trapPos), int _type, bool _isAcvtive) {
 	isActive = _isAcvtive;
 	posx = pos.x;
 	posy = pos.y;
-	width = size.x;
-	height = size.y;
 	trapPos = _trapPos;
 	type = "Ground";
 	if (_type == 1) {
@@ -41,6 +38,40 @@ Ground::Ground(sf::Vector2f(pos), sf::Vector2f(size), sf::Vector2f(_trapPos), in
 	if (isActive) { // actif = trou
 		rect.setFillColor(sf::Color::Transparent);
 	}
-	rect.setSize(size);
+	rect.setPosition(pos);
+}
+
+Egg::Egg(sf::Vector2f(pos)) {
+	posx = pos.x;
+	posy = pos.y;
+	type = "Egg";
+	rect.setFillColor(sf::Color::Cyan);
+	rect.setPosition(pos);
+}
+
+Pike::Pike(sf::Vector2f(pos), sf::Vector2f(_trapPos), int _type, bool _isAcvtive) {
+	isActive = _isAcvtive;
+	posx = pos.x;
+	posy = pos.y;
+	trapPos = _trapPos;
+	type = "Pike";
+	rect.setFillColor(sf::Color::Red);
+	rect.setPosition(pos);
+}
+
+Tramplin::Tramplin(sf::Vector2f(pos), sf::Vector2f(_trapPos), int _type, bool _isAcvtive) {
+	isActive = _isAcvtive;
+	posx = pos.x;
+	posy = pos.y;
+	trapPos = _trapPos;
+	type = "Tramplin";
+	rect.setFillColor(sf::Color::Green);
+	rect.setPosition(pos);
+}
+
+Spawn::Spawn(sf::Vector2f(pos)) {
+	posx = pos.x;
+	posy = pos.y;
+	type = "Spawn";
 	rect.setPosition(pos);
 }
