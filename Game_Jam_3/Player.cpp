@@ -151,13 +151,13 @@ Player::State Player::processEvent(std::vector<sf::Event>& events, float now) {
 
 void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps) {
 	State newState = processEvent(events, now);
-
-	if (moveLeft && !moveRight && !SideCollide(traps)) {
+	SideCollide(traps);
+	if (moveLeft && !moveRight) {
 		speed = -PLAYER_SPEED;
 		posx += speed * dt;
 
 	}
-	else if (moveRight && !moveLeft && !SideCollide(traps)) {
+	else if (moveRight && !moveLeft) {
 		speed = PLAYER_SPEED;
 		posx += speed * dt;
 	}
@@ -238,7 +238,7 @@ bool Player::DownCollide(std::vector<Trap*>& traps) {
 	return false;
 }
 
-bool Player::SideCollide(std::vector<Trap*>& traps) {
+void Player::SideCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
 		if (t->GetType() == "GroundUntrapped") {
 			if (speed > 0) {
@@ -246,7 +246,6 @@ bool Player::SideCollide(std::vector<Trap*>& traps) {
 					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
 
 					posx = t->GetPosX() - width - 2;
-					return true;
 				}
 			}
 			else if (speed < 0) {
@@ -254,20 +253,16 @@ bool Player::SideCollide(std::vector<Trap*>& traps) {
 					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
 
 					posx = t->GetRightX() + 1;
-					return true;
 				}
 			}
 		}
 	}
 	if (posx <= 0) {
 		posx = 0;
-		return true;
 	}
 	else if (posx + width >= 1080) {
 		posx = 1080 - width;
-		return true;
 	}
-	return false;
 }
 
 //bool Player::UpCollide(std::vector<Block*>& blocks) {

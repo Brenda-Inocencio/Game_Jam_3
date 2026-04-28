@@ -7,8 +7,10 @@ protected:
 	float posy;
 	float width;
 	float height;
+	sf::Vector2f trapPos;
 	std::string type;
 	sf::RectangleShape rect;
+	sf::RectangleShape rectTrap;
 public:
 	bool isActive;
 public:
@@ -26,6 +28,6 @@ public:
 
 class Ground : public Trap {
 public:
-	Ground(sf::Vector2f(pos), sf::Vector2f(size), int type);
+	Ground(sf::Vector2f(pos), sf::Vector2f(size), sf::Vector2f(_trapPos), int _type, bool _isAcvtive);
 	~Ground() {};
 };

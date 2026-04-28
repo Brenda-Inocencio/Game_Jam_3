@@ -1,20 +1,65 @@
 #include "Level.h"
-#include "Background.h"
 #include "Trap.h"
+#include <fstream>
+#include <iostream>
 
-Level::Level(Background* bg, int lvl) {
-	levelBg = bg;
-	if (lvl == 0) {
-		traps.push_back(new Ground(sf::Vector2f(0, 900), sf::Vector2f(1920, 200), 0));
+Level::Level() : Level("") {
+}
+
+Level::Level(std::string path1) : nextLevel(""), prevLevel("") {
+	std::ifstream level(path1);
+	if (!level) {
+		std::cerr << "Can't find the level" << std::endl;
 	}
-	if (lvl == 1) {
-		//objs.push_back(new Door(sf::Vector2f(0.f, 500.f), 0));
-		//objs.push_back(new Door(sf::Vector2f(1700.f, 500.f), 1));
-		//objs.push_back(new TV(sf::Vector2f(950.f, 400.f)));
-	}
-	if (lvl == 2) {
-		//objs.push_back(new Door(sf::Vector2f(0.f, 500.f), 0));
-		//objs.push_back(new Fridge(sf::Vector2f(1550.f, 300.f)));
+	else {
+		int lineNumber = -1;
+		std::string line;
+		std::string character;
+		while (std::getline(level, line)) {
+			lineNumber += 1;
+			for (int i = 0; i < line.size(); i++) {
+				character = line[i];
+				if (line == "Next Level") {
+					lineNumber -= 2;
+					if (std::getline(level, line)) {
+						nextLevel = line;
+					}
+				}
+				else if (line == "Previous Level") {
+					lineNumber -= 2;
+					if (std::getline(level, line)) {
+						prevLevel = line;
+					}
+				}
+				else if (character == "X") {
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(128, 90), sf::Vector2f(0, 0), 0, false));
+				}
+				else if (character == "-") {
+					continue; //nothing
+				}
+				else if (character == "E") {
+					//traps.push_back(new Egg());
+				}
+				else if (character == "G") {
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(128, 90), sf::Vector2f(0, 0), 1, false)); // trap pos a changer
+				}
+				else if (character == "g") {
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(128, 90), sf::Vector2f(0, 0), 1, true)); // trap pos a changer
+				}
+				else if (character == "V") {
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(128, 90), sf::Vector2f(0, 0), 1, true));
+				}
+				else if (character == "P") {
+					//traps.push_back(new Pike());
+				}
+				else if (character == "T") {
+					//traps.push_back(new Tramplin());
+				}
+				else if (character == "S") {
+					//traps.push_back(new Spawn());
+				}
+			}
+		}
 	}
 }
 
@@ -24,11 +69,22 @@ Level::~Level() {
 			delete traps[i]; traps[i] = nullptr;
 		}
 	}
+	traps.clear();
 }
 
 void Level::Render(sf::RenderWindow& window) {
-	levelBg->Render(window);
 	for (int i = 0; i < traps.size(); i++) {
 		traps[i]->Render(window);
+	}
+}
+
+void Level::Update(int currentLvl, int& newLvl, float dt, float now) {
+	for (int i = 0; i < traps.size(); i++) {
+		if (traps[i]->GetType() == "EGG") { //Next Level
+			/*if (traps[i]->isNextLevel) {
+				newLvl = currentLvl + 1;
+				traps[i]->isNextLevel = false;
+			}*/
+		}
 	}
 }
