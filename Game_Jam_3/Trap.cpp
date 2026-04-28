@@ -23,12 +23,12 @@ void Trap::Render(sf::RenderWindow& window) {
 
 }
 
-
-Ground::Ground(sf::Vector2f(pos), int _type, bool _isAcvtive) {
+Ground::Ground(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	isActive = _isAcvtive;
 	posx = pos.x;
 	posy = pos.y;
-
 	type = "Ground";
 	if (_type == 1) {
 		type += "Trapped";
@@ -45,9 +45,11 @@ Ground::Ground(sf::Vector2f(pos), int _type, bool _isAcvtive) {
 	rect.setPosition(pos);
 }
 
-Egg::Egg(sf::Vector2f(pos)) {
+Egg::Egg(sf::Vector2f(pos), int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	posx = pos.x;
-	posy = pos.y ;
+	posy = pos.y;
 	width = 72;
 	height = 162;
 	type = "Egg";
@@ -60,7 +62,9 @@ Egg::Egg(sf::Vector2f(pos)) {
 	sprite->setPosition(sf::Vector2f(posx, posy));
 }
 
-Pike::Pike(sf::Vector2f(pos), int _type, bool _isAcvtive) {
+Pike::Pike(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	isActive = _isAcvtive;
 	posx = pos.x;
 	posy = pos.y;
@@ -73,7 +77,9 @@ Pike::Pike(sf::Vector2f(pos), int _type, bool _isAcvtive) {
 
 }
 
-Tramplin::Tramplin(sf::Vector2f(pos), int _type, bool _isAcvtive) {
+Tramplin::Tramplin(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	isActive = _isAcvtive;
 	posx = pos.x;
 	posy = pos.y;
@@ -82,13 +88,33 @@ Tramplin::Tramplin(sf::Vector2f(pos), int _type, bool _isAcvtive) {
 	rect.setPosition(pos);
 }
 
-Spawn::Spawn(sf::Vector2f(pos)) {
+Spawn::Spawn(sf::Vector2f(pos), int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	posx = pos.x;
 	posy = pos.y;
 	type = "Spawn";
 	rect.setPosition(pos);
 }
 
-TrapTrigger::TrapTrigger(sf::Vector2f(pos), int trap) {
-	
+TrapTrigger::TrapTrigger(sf::Vector2f(pos), int trap, int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
+	posx = pos.x;
+	posy = pos.y;
+	type = "TrapTrigger"; 
+	rect.setFillColor(sf::Color::Transparent);
+	rect.setOutlineColor(sf::Color::Magenta);
+	rect.setOutlineThickness(2.f);
+	rect.setPosition(pos);
+	switch (trap) {
+	case 0:
+		type += "0";
+		break;
+	case 1:
+		type += "1";
+		break;
+	default:
+		break;
+	}
 }
