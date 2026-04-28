@@ -52,4 +52,5 @@ public:
 	bool UpCollide(std::vector<Trap*>& traps);
 	void VoidCollide(std::vector<Trap*>& traps);
 	void ChangeLevel(std::vector<Trap*>& traps);
+	void TrapCollide(std::vector<Trap*>& traps);
 };

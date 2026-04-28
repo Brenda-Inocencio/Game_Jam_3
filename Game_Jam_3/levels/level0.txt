@@ -8,8 +8,8 @@ XXXXXXXXXXXXXXX
 ---------------
 ---------------
 ---------------
----------------
--S----------E--
+------C--------
+-S-------1--E--
 XXXVXXgGXXGXXXX
 XXXVXXgGXXGXXXX
 XXXVXXgGXXGXXXX

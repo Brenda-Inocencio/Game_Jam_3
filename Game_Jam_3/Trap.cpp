@@ -1,7 +1,7 @@
 #include "Trap.h"
 
 
-Trap::Trap() : posx(0.f), posy(0.f),posCharacter(0), lineCharacter(0), width(128.f), height(90), type("Trap"), isActive(false) {
+Trap::Trap() : posx(0.f), posy(0.f), posCharacter(0), lineCharacter(0), width(128.f), height(90), type("Trap"), isActive(false) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
 	rect.setFillColor(sf::Color::Transparent);
@@ -17,6 +17,8 @@ void Trap::Render(sf::RenderWindow& window) {
 
 
 Ground::Ground(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	isActive = _isAcvtive;
 	posx = pos.x;
 	posy = pos.y;
@@ -37,6 +39,8 @@ Ground::Ground(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
 }
 
 Egg::Egg(sf::Vector2f(pos), int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	posx = pos.x;
 	posy = pos.y;
 	width = 50;
@@ -46,6 +50,8 @@ Egg::Egg(sf::Vector2f(pos), int i, int ln) {
 }
 
 Pike::Pike(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	isActive = _isAcvtive;
 	posx = pos.x;
 	posy = pos.y;
@@ -55,6 +61,8 @@ Pike::Pike(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
 }
 
 Tramplin::Tramplin(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	isActive = _isAcvtive;
 	posx = pos.x;
 	posy = pos.y;
@@ -64,6 +72,8 @@ Tramplin::Tramplin(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln)
 }
 
 Spawn::Spawn(sf::Vector2f(pos), int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	posx = pos.x;
 	posy = pos.y;
 	type = "Spawn";
@@ -71,6 +81,8 @@ Spawn::Spawn(sf::Vector2f(pos), int i, int ln) {
 }
 
 TrapTrigger::TrapTrigger(sf::Vector2f(pos), int trap, int i, int ln) {
+	posCharacter = i;
+	lineCharacter = ln;
 	posx = pos.x;
 	posy = pos.y;
 	type = "TrapTrigger"; 
