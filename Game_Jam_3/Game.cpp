@@ -25,6 +25,7 @@ Game::~Game() {
 
 void Game::Update(float dt, float now, std::vector<sf::Event> events) {
     player->Update(dt, now, events, levels[currentLevel]->traps);
+    levels[currentLevel]->Update();
 }
 
 void Game::Render(sf::RenderWindow& window) {

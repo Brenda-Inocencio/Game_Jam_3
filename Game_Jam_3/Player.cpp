@@ -5,13 +5,13 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <iostream>
 
-#define TIME_JUMP 0.5f
+#define TIME_JUMP 0.25f
 #define TIME_INVULNERABLE 2.f
 #define PLAYER_SPEED 150.f
-#define JUMP_SPEED 200.f
-#define FALL_SPEED 150.f
+#define JUMP_SPEED 150.f
+#define FALL_SPEED 100.f
 
-Player::Player() : width(64.f), height(64.f), posx(200.f), posy(600.f), speed(0.f), jumpingTime(0.f),
+Player::Player() : width(64.f), height(64.f), posx(150.f), posy(800.f), speed(0.f), jumpingTime(0.f),
 dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(false) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
@@ -166,12 +166,11 @@ Player::State Player::processEvent(std::vector<sf::Event>& events, float now) {
 void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps) {
 	rect.setPosition(sf::Vector2f(posx, posy));
 	sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
-	State newState = processEvent(events, now);
 	SideCollide(traps);
+	State newState = processEvent(events, now);
 	if (moveLeft && !moveRight) {
 		speed = -PLAYER_SPEED;
 		posx += speed * dt;
-
 	}
 	else if (moveRight && !moveLeft) {
 		speed = PLAYER_SPEED;
@@ -189,9 +188,9 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::ve
 		if (isJump) {
 			isJump = false;
 		}
-		/*if (UpCollide(traps)) {
+		if (UpCollide(traps)) {
 			newState = FALLING;
-		}*/
+		}
 		else {
 			Jump(dt, now, newState, traps);
 		}
@@ -203,7 +202,7 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::ve
 		break;
 	}
 
-	//VoidCollide(blocks);
+	VoidCollide(traps);
 
 	/*if (now - vulnerableTime >= TIME_INVULNERABLE) {
 		isVulnerable = true;
@@ -242,9 +241,9 @@ bool Player::DownCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
 		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive) ||
 			(t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1")) {
-			if (t->GetPosY() >= posy && t->GetPosY() <= posy + height) {
-				if ((posx >= t->GetPosX() && posx <= t->GetRightX()) ||
-					(posx + width <= t->GetRightX() && posx + width >= t->GetPosX())) {
+			if (posy + height >= t->GetPosY() && posy + height <= t->GetBottomY()) {
+				if (posx <= t->GetRightX() && posx >= t->GetPosX() ||
+					posx + width >= t->GetPosX() && posx + width <= t->GetRightX()) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
 					}
@@ -261,11 +260,11 @@ bool Player::DownCollide(std::vector<Trap*>& traps) {
 
 void Player::SideCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
-		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive ||
-			(t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1"))) {
+		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive) ||
+			(t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1")) {
 			if (speed > 0) {
 				if (posx + width >= t->GetPosX() && posx + width <= t->GetRightX() &&
-					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
+					posy >= t->GetPosY() && posy + height <= t->GetBottomY()) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
 					}
@@ -276,7 +275,7 @@ void Player::SideCollide(std::vector<Trap*>& traps) {
 			}
 			else if (speed < 0) {
 				if (posx <= t->GetRightX() && posx >= t->GetPosX() &&
-					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
+					posy >= t->GetPosY() && posy + height <= t->GetBottomY()) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
 					}
@@ -315,12 +314,8 @@ bool Player::UpCollide(std::vector<Trap*>& traps) {
 }
 
 void Player::VoidCollide(std::vector<Trap*>& traps) {
-	for (auto* t : traps) {
-		if (t->GetType() == "DeathBlock") {
-			if (t->GetBottomY() >= posy && t->GetPosY() <= posy) {
-				isAlive = false;
-			}
-		}
+	if (posy >= 1080) {
+		isAlive = false;
 	}
 }
 
@@ -328,7 +323,7 @@ void Player::TrapCollide(std::vector<Trap*>& traps, Trap* t) {
 	if (t->GetType() == "TrapTrigger0" && !t->isActive) {
 		int i = t->GetCharacterIdx(); int ln = t->GetCharacterLine();
 		for (auto* t1 : traps) {
-			if ((i == t1->GetCharacterIdx() || i == t1->GetCharacterIdx() + 1) && ln >= t->GetCharacterLine()) {
+			if ((i == t1->GetCharacterIdx() || i + 1 == t1->GetCharacterIdx()) && ln >= t->GetCharacterLine()) {
 				t1->isActive = !t1->isActive;
 			}
 		}
@@ -336,7 +331,7 @@ void Player::TrapCollide(std::vector<Trap*>& traps, Trap* t) {
 	else if (t->GetType() == "TrapTrigger1" && !t->isActive) {
 		int i = t->GetCharacterIdx(); int ln = t->GetCharacterLine();
 		for (auto* t1 : traps) {
-			if (i == t1->GetCharacterIdx() + 1 && ln >= t->GetCharacterLine()) {
+			if (i + 1 == t1->GetCharacterIdx() && ln >= t->GetCharacterLine()) {
 				t1->isActive = !t1->isActive;
 			}
 		}

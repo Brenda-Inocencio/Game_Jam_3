@@ -15,15 +15,13 @@ void Trap::Render(sf::RenderWindow& window) {
 	window.draw(rect);
 }
 
-void Trap::Update(std::vector<Trap*>& traps) {
-	for (auto* t : traps) {
-		if (t->type == "GroundUntrapped") {
-			if (!isActive) {
-				rect.setFillColor(sf::Color::Black);
-			}
-			if (isActive) { // actif = trou
-				rect.setFillColor(sf::Color::Transparent);
-			}
+void Trap::Update() {
+	if (type == "GroundTrapped") {
+		if (!isActive) {
+			rect.setFillColor(sf::Color::Black);
+		}
+		if (isActive) { // active = void
+			rect.setFillColor(sf::Color::Transparent);
 		}
 	}
 }
@@ -55,7 +53,6 @@ Egg::Egg(sf::Vector2f(pos), int i, int ln) {
 	lineCharacter = ln;
 	posx = pos.x;
 	posy = pos.y;
-	width = 50;
 	type = "Egg";
 	rect.setFillColor(sf::Color::Cyan);
 	rect.setPosition(pos);
@@ -89,6 +86,7 @@ Spawn::Spawn(sf::Vector2f(pos), int i, int ln) {
 	posx = pos.x;
 	posy = pos.y;
 	type = "Spawn";
+	rect.setFillColor(sf::Color::Transparent);
 	rect.setPosition(pos);
 }
 
