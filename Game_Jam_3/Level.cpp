@@ -41,10 +41,10 @@ Level::Level(std::string path1) : nextLevel(""), prevLevel("") {
 					traps.push_back(new Egg(sf::Vector2f(i * 128, lineNumber * 90)));
 				}
 				else if (character == "G") {
-					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(0, 0), 1, false)); // trap pos a changer
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f((i - 1) * 128, 6 * 90), 1, false)); 
 				}
 				else if (character == "g") {
-					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(0, 0), 1, true)); // trap pos a changer
+					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(i * 128, 6 * 90), 1, true)); 
 				}
 				else if (character == "V") {
 					traps.push_back(new Ground(sf::Vector2f(i * 128, lineNumber * 90), sf::Vector2f(0, 0), 1, true));
@@ -57,6 +57,12 @@ Level::Level(std::string path1) : nextLevel(""), prevLevel("") {
 				}
 				else if (character == "S") {
 					traps.push_back(new Spawn(sf::Vector2f(i * 128, lineNumber * 90)));
+				}
+				else if (character == "C") {
+					traps.push_back(new TrapTrigger(sf::Vector2f(i * 128, lineNumber * 90), 0));
+				}
+				else if (character == "1") {
+					traps.push_back(new TrapTrigger(sf::Vector2f(i * 128, lineNumber * 90), 1));
 				}
 			}
 		}

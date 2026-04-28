@@ -224,7 +224,7 @@ void Player::Fall(float dt, float now, State& newState, std::vector<Trap*>& trap
 
 bool Player::DownCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
-		if (t->GetType() == "GroundUntrapped") {
+		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive)) {
 			if (t->GetPosY() >= posy && t->GetPosY() <= posy + height) {
 				if ((posx >= t->GetPosX() && posx <= t->GetRightX()) ||
 					(posx + width <= t->GetRightX() && posx + width >= t->GetPosX())) {
@@ -240,7 +240,7 @@ bool Player::DownCollide(std::vector<Trap*>& traps) {
 
 void Player::SideCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
-		if (t->GetType() == "GroundUntrapped") {
+		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive)) {
 			if (speed > 0) {
 				if (posx + width >= t->GetPosX() && posx + width <= t->GetRightX() &&
 					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
@@ -260,8 +260,8 @@ void Player::SideCollide(std::vector<Trap*>& traps) {
 	if (posx <= 0) {
 		posx = 0;
 	}
-	else if (posx + width >= 1080) {
-		posx = 1080 - width;
+	else if (posx + width >= 1920) {
+		posx = 1920 - width;
 	}
 }
 
