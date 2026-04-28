@@ -15,6 +15,18 @@ void Trap::Render(sf::RenderWindow& window) {
 	window.draw(rect);
 }
 
+void Trap::Update(std::vector<Trap*>& traps) {
+	for (auto* t : traps) {
+		if (t->type == "GroundUntrapped") {
+			if (!isActive) {
+				rect.setFillColor(sf::Color::Black);
+			}
+			if (isActive) { // actif = trou
+				rect.setFillColor(sf::Color::Transparent);
+			}
+		}
+	}
+}
 
 Ground::Ground(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
 	posCharacter = i;

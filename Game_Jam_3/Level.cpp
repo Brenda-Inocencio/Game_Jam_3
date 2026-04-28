@@ -80,6 +80,7 @@ void Level::Render(sf::RenderWindow& window) {
 
 void Level::Update(int currentLvl, int& newLvl, float dt, float now) {
 	for (int i = 0; i < traps.size(); i++) {
+		traps[i]->Update(traps);
 		if (traps[i]->GetType() == "Egg") { //Next Level
 			/*if (traps[i]->isNextLevel) {
 				newLvl = currentLvl + 1;

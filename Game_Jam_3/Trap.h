@@ -18,6 +18,7 @@ public:
 	virtual ~Trap();
 
 	void Render(sf::RenderWindow& window);
+	void Update(std::vector<Trap*>& traps);
 
 	inline float GetPosX() { return posx; }
 	inline float GetRightX() { return posx + width; }

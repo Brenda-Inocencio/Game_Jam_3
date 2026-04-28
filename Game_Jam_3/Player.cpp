@@ -246,7 +246,7 @@ bool Player::DownCollide(std::vector<Trap*>& traps) {
 				if ((posx >= t->GetPosX() && posx <= t->GetRightX()) ||
 					(posx + width <= t->GetRightX() && posx + width >= t->GetPosX())) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
-						TrapCollide(traps);
+						TrapCollide(traps, t);
 					}
 					else {
 						posy = t->GetPosY() - height;
@@ -267,7 +267,7 @@ void Player::SideCollide(std::vector<Trap*>& traps) {
 				if (posx + width >= t->GetPosX() && posx + width <= t->GetRightX() &&
 					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
-						TrapCollide(traps);
+						TrapCollide(traps, t);
 					}
 					else {
 						posx = t->GetPosX() - width - 2;
@@ -278,7 +278,7 @@ void Player::SideCollide(std::vector<Trap*>& traps) {
 				if (posx <= t->GetRightX() && posx >= t->GetPosX() &&
 					t->GetPosY() >= posy && t->GetBottomY() <= posy + height) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
-						TrapCollide(traps);
+						TrapCollide(traps, t);
 					}
 					else {
 						posx = t->GetRightX() + 1;
@@ -302,7 +302,7 @@ bool Player::UpCollide(std::vector<Trap*>& traps) {
 			if ((t->GetBottomY() >= posy && t->GetPosY() <= posy)) {
 				if ((t->GetPosX() >= posx && t->GetPosX() <= posx + width)) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
-						TrapCollide(traps);
+						TrapCollide(traps, t);
 					}
 					else {
 						return true;
@@ -324,24 +324,23 @@ void Player::VoidCollide(std::vector<Trap*>& traps) {
 	}
 }
 
-void Player::TrapCollide(std::vector<Trap*>& traps) {
-	for (auto* t : traps) {
-		if (t->GetType() == "TrapTrigger0" && !t->isActive) {
-			int i = t->GetCharacterIdx(); int ln = t->GetCharacterLine();
-			for (auto* t1 : traps) {
-				if ((i == t1->GetCharacterIdx() || i == t1->GetCharacterIdx() + 1) && ln >= t->GetCharacterLine()) {
-					t1->isActive = !t1->isActive;
-				}
-			}
-		}
-		else if (t->GetType() == "TrapTrigger1" && !t->isActive) {
-			int i = t->GetCharacterIdx(); int ln = t->GetCharacterLine();
-			for (auto* t1 : traps) {
-				if (i == t1->GetCharacterIdx() + 1 && ln >= t->GetCharacterLine()) {
-					t1->isActive = !t1->isActive;
-				}
+void Player::TrapCollide(std::vector<Trap*>& traps, Trap* t) {
+	if (t->GetType() == "TrapTrigger0" && !t->isActive) {
+		int i = t->GetCharacterIdx(); int ln = t->GetCharacterLine();
+		for (auto* t1 : traps) {
+			if ((i == t1->GetCharacterIdx() || i == t1->GetCharacterIdx() + 1) && ln >= t->GetCharacterLine()) {
+				t1->isActive = !t1->isActive;
 			}
 		}
 	}
+	else if (t->GetType() == "TrapTrigger1" && !t->isActive) {
+		int i = t->GetCharacterIdx(); int ln = t->GetCharacterLine();
+		for (auto* t1 : traps) {
+			if (i == t1->GetCharacterIdx() + 1 && ln >= t->GetCharacterLine()) {
+				t1->isActive = !t1->isActive;
+			}
+		}
+	}
+	t->isActive = true;
 }
 
