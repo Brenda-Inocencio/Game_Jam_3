@@ -240,8 +240,28 @@ void Player::Fall(float dt, float now, State& newState, std::vector<Trap*>& trap
 
 bool Player::DownCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
-		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive)) {
+		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive) ||
+			(t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1")) {
 			if (t->GetPosY() >= posy && t->GetPosY() <= posy + height) {
+
+				if (t->GetType() == "TrapTrigger0" && !t->isActive) {
+					int i = t->GetCharacterIdx(); int ln = t->GetCharacterLine();
+					for (auto* t1 : traps) {
+						if ((i == t1->GetCharacterIdx() || i == t1->GetCharacterIdx() + 1) && ln >= t->GetCharacterLine()) {
+							t1->isActive = !t1->isActive;
+						}
+					}
+				}
+				else if (t->GetType() == "TrapTrigger1" && !t->isActive) {
+					int i = t->GetCharacterIdx(); int ln = t->GetCharacterLine();
+					for (auto* t1 : traps) {
+						if (i == t1->GetCharacterIdx() + 1 && ln >= t->GetCharacterLine()) {
+							t1->isActive = !t1->isActive;
+						}
+					}
+				}
+
+
 				if ((posx >= t->GetPosX() && posx <= t->GetRightX()) ||
 					(posx + width <= t->GetRightX() && posx + width >= t->GetPosX())) {
 
@@ -281,26 +301,26 @@ void Player::SideCollide(std::vector<Trap*>& traps) {
 	}
 }
 
-//bool Player::UpCollide(std::vector<Block*>& blocks) {
-//	for (auto* bl : blocks) {
-//		if (bl->GetBlockType() == "Block") {
-//			if ((bl->GetBottomY() >= posy && bl->GetPosY() <= posy)) {
-//				if ((bl->GetPosX() >= posx && bl->GetPosX() <= posx + width)) {
-//					return true;
-//				}
-//			}
-//		}
-//	}
-//	return false;
-//}
+bool Player::UpCollide(std::vector<Trap*>& traps) {
+	for (auto* t : traps) {
+		if (t->GetType() == "Block") {
+			if ((t->GetBottomY() >= posy && t->GetPosY() <= posy)) {
+				if ((t->GetPosX() >= posx && t->GetPosX() <= posx + width)) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
 
-//void Player::VoidCollide(std::vector<Block*>& blocks) {
-//	for (auto* bl : blocks) {
-//		if (bl->GetBlockType() == "DeathBlock") {
-//			if (bl->GetBottomY() >= posy && bl->GetPosY() <= posy) {
-//				isAlive = false;
-//			}
-//		}
-//	}
-//}
+void Player::VoidCollide(std::vector<Trap*>& traps) {
+	for (auto* t : traps) {
+		if (t->GetType() == "DeathBlock") {
+			if (t->GetBottomY() >= posy && t->GetPosY() <= posy) {
+				isAlive = false;
+			}
+		}
+	}
+}
 

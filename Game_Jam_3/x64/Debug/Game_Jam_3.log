@@ -1,12 +1,2 @@
-﻿  Player.cpp
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,38): warning C4305: 'argument' : troncation de 'double' à 'T'
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,38): warning C4305:         with
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,38): warning C4305:         [
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,38): warning C4305:             T=float
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,38): warning C4305:         ]
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,32): warning C4305: 'argument' : troncation de 'double' à 'T'
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,32): warning C4305:         with
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,32): warning C4305:         [
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,32): warning C4305:             T=float
-C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\Game_Jam_3\Player.cpp(22,32): warning C4305:         ]
-  Game_Jam_3.vcxproj -> C:\Users\clima-grandguillotte\Documents\GitHub\Game_Jam_3\x64\Debug\Game_Jam_3.exe
+﻿  Trap.cpp
+  Game_Jam_3.vcxproj -> C:\Users\trole\OneDrive\Documents\GitHub\Game_Jam_3\x64\Debug\Game_Jam_3.exe
