@@ -17,6 +17,8 @@ public:
 	Game();
 	~Game();
 
+	void InitSpawn();
+
 	void Update(float dt, float now, std::vector<sf::Event> events);
 
 	void Render(sf::RenderWindow& window);

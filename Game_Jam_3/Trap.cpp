@@ -75,15 +75,15 @@ Pike::Pike(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
 	posCharacter = i;
 	lineCharacter = ln;
 	isActive = _isAcvtive;
-	posx = pos.x;
-	posy = pos.y;
+	posx = pos.x+ 50;
+	posy = pos.y + 45;
+	width = 50;
+	height = 45;
 	type = "Pike";
-	rect.setFillColor(sf::Color::Red);
-	rect.setPosition(pos);
-	sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
+	rect.setSize(sf::Vector2f(width, height));
+	rect.setPosition(sf::Vector2f(posx, posy));
 	sprite->setScale(sf::Vector2f(0.65, 0.65));
-	sprite->setPosition(sf::Vector2f(-posx, posy));
-
+	sprite->setPosition(sf::Vector2f(posx, posy));
 }
 
 Tramplin::Tramplin(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {

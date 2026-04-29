@@ -6,6 +6,7 @@
 struct Texture;
 struct Sprite;
 class Trap;
+class Level;
 
 class Player {
 	float width;
@@ -21,7 +22,9 @@ class Player {
 	float speed;
 
 	int deathCount;
-	bool changeLevel;
+
+	float spawnPosX;
+	float spawnPosY;
 
 	sf::Texture* tex;
 	sf::Sprite* sprite;
@@ -43,7 +46,7 @@ public:
 	~Player();
 
 	void Render(sf::RenderWindow& window);
-	void Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps);
+	void Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps, Level* lvl);
 
 	void Jump(float dt, float now, State& newState, std::vector<Trap*>& traps);
 	void Fall(float dt, float now, State& newState, std::vector<Trap*>& traps);
@@ -53,6 +56,9 @@ public:
 	void VoidCollide(std::vector<Trap*>& traps);
 	void TrapCollide(std::vector<Trap*>& traps, Trap* t);
 
-	void ChangeLevel(std::vector<Trap*>& traps);
-	void Respawn(std::vector<Trap*>& traps);
+	void PikeCollide(std::vector<Trap*>& traps);
+	void EggCollide(std::vector<Trap*>& traps);
+
+	void SetSpawn(float x, float y);
+	void Respawn(Level* lvl);
 };

@@ -5,6 +5,7 @@ Level::Level() : Level("") {
 }
 
 Level::Level(std::string path1) : nextLevel(""), prevLevel("") {
+	level = std::ifstream(path1);
 	Reset();
 }
 
@@ -30,7 +31,6 @@ void Level::Update() {
 }
 
 void Level::Reset() {
-	std::ifstream level();
 	if (!level) {
 		std::cerr << "Can't find the level" << std::endl;
 	}

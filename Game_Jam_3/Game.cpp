@@ -1,12 +1,17 @@
 #include "Game.h"
 #include "Player.h"
+#include "Trap.h"
 #include "Background.h"
 #include "Level.h"
 
 Game::Game() : currentLevel(0) {
     bg = new Background();
     levels.push_back(new Level("levels/level0.txt"));
+    levels.push_back(new Level("levels/level1.txt"));
+    levels.push_back(new Level("levels/level2.txt"));
+    levels.push_back(new Level("levels/level3.txt"));
     player = new Player();
+    InitSpawn();
 }
 
 Game::~Game() {
@@ -23,9 +28,31 @@ Game::~Game() {
     }
 }
 
+void Game::InitSpawn() {
+    for (auto* t : levels[currentLevel]->traps) {
+        if (t->GetType() == "Spawn") {
+            player->SetSpawn(t->GetPosX(), t->GetPosY());
+            player->Respawn(levels[currentLevel]);
+            break;
+        }
+    }
+}
+
 void Game::Update(float dt, float now, std::vector<sf::Event> events) {
-    player->Update(dt, now, events, levels[currentLevel]->traps);
+    player->Update(dt, now, events, levels[currentLevel]->traps, levels[currentLevel]);
     levels[currentLevel]->Update();
+    for (auto* t : levels[currentLevel]->traps) {
+        if (t->GetType() == "Egg" && t->isActive) {
+            t->isActive = false;
+            currentLevel++;
+            if (currentLevel >= levels.size()) {
+                currentLevel = 0;
+            }
+            InitSpawn();
+            break;
+        }
+
+    }
 }
 
 void Game::Render(sf::RenderWindow& window) {

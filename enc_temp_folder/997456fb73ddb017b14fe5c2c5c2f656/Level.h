@@ -12,7 +12,7 @@ class Trap;
 class Level {
 	std::string prevLevel;
 	std::string nextLevel;
-	std::string path;
+	std::ifstream level;
 
 public:
 	std::vector<Trap*> traps;

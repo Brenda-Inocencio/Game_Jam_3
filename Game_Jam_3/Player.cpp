@@ -2,18 +2,18 @@
 
 #include "Player.h"
 #include "Trap.h"
+#include "Level.h"
 #include <SFML/Graphics/Texture.hpp>
 #include <iostream>
 
-#define TIME_JUMP 0.25f
+#define TIME_JUMP 0.5f
 #define TIME_INVULNERABLE 2.f
-#define PLAYER_SPEED 150.f
-#define JUMP_SPEED 150.f
+#define PLAYER_SPEED 100.f
+#define JUMP_SPEED 200.f
 #define FALL_SPEED 100.f
 
 Player::Player() : width(64.f), height(64.f), posx(150.f), posy(800.f), speed(0.f), jumpingTime(0.f),
-dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(false), deathCount(0), 
-changeLevel(false) {
+dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(false), deathCount(0) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
 	rect.setFillColor(sf::Color::Yellow);
@@ -162,7 +162,7 @@ Player::State Player::processEvent(std::vector<sf::Event>& events, float now) {
 }
 
 
-void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps) {
+void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::vector<Trap*>& traps, Level* lvl) {
 	rect.setPosition(sf::Vector2f(posx, posy));
 	sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
 	SideCollide(traps);
@@ -202,6 +202,11 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::ve
 	}
 
 	VoidCollide(traps);
+	PikeCollide(traps);
+	EggCollide(traps);
+	if (!isAlive) {
+		Respawn(lvl);
+	}
 
 	state = newState;
 }
@@ -242,9 +247,6 @@ bool Player::DownCollide(std::vector<Trap*>& traps) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
 					}
-					else if (t->GetType() == "Egg") {
-						ChangeLevel(traps);
-					}
 					else {
 						posy = t->GetPosY() - height;
 						return true;
@@ -266,9 +268,6 @@ void Player::SideCollide(std::vector<Trap*>& traps) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
 					}
-					else if (t->GetType() == "Egg") {
-						ChangeLevel(traps);
-					}
 					else {
 						posx = t->GetPosX() - width - 2;
 					}
@@ -279,9 +278,6 @@ void Player::SideCollide(std::vector<Trap*>& traps) {
 					posy >= t->GetPosY() && posy + height <= t->GetBottomY()) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
-					}
-					else if (t->GetType() == "Egg") {
-						ChangeLevel(traps);
 					}
 					else {
 						posx = t->GetRightX() + 1;
@@ -307,9 +303,6 @@ bool Player::UpCollide(std::vector<Trap*>& traps) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
 					}
-					else if (t->GetType() == "Egg") {
-						ChangeLevel(traps);
-					}
 					else {
 						return true;
 					}
@@ -322,8 +315,33 @@ bool Player::UpCollide(std::vector<Trap*>& traps) {
 
 void Player::VoidCollide(std::vector<Trap*>& traps) {
 	if (posy >= 1080) {
-		Respawn(traps);
+		isAlive = false;
 	}
+}
+
+void Player::PikeCollide(std::vector<Trap*>& traps) {
+	for (auto* t : traps) {
+		if (t->GetType() == "Pike" && t->isActive) {
+			if (posx + width >= t->GetPosX() && posx <= t->GetRightX() &&
+				posy + height >= t->GetPosY() && posy <= t->GetBottomY()) {
+				isAlive = false;
+				return;
+			}
+		}
+	}
+}
+
+void Player::EggCollide(std::vector<Trap*>& traps) {
+	for (auto* t : traps) {
+		if (t->GetType() == "Egg") {
+			if (posx + width >= t->GetPosX() && posx <= t->GetRightX() &&
+				posy + height >= t->GetPosY() && posy <= t->GetBottomY()) {
+				t->isActive = true;
+				return;
+			}
+		}
+	}
+
 }
 
 void Player::TrapCollide(std::vector<Trap*>& traps, Trap* t) {
@@ -346,18 +364,23 @@ void Player::TrapCollide(std::vector<Trap*>& traps, Trap* t) {
 	t->isActive = true;
 }
 
-void Player::ChangeLevel(std::vector<Trap*>& traps) {
-	changeLevel = true;
+void Player::SetSpawn(float x, float y) {
+	spawnPosX = x;
+	spawnPosY = y;
 }
 
-void Player::Respawn(std::vector<Trap*>& traps) {
-	for (auto* rez : traps) {
-		if (rez->GetType() == "Spawn") {
-			posx = 150;
-			posx = 900;
-			break;
-		}
+void Player::Respawn(Level* lvl) {
+	posx = spawnPosX;
+	posy = spawnPosY;
+	speed = 0.f;
+	moveLeft = false;
+	moveRight = false;
+	isJump = false;
+	state = IDLE;
+	isAlive = true;
+	lvl->Reset();
+	rect.setPosition(sf::Vector2f(posx, posy));
+	if (sprite) {
+		sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
 	}
-	deathCount += 1;
 }
-
