@@ -38,7 +38,7 @@ Ground::Ground(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln) {
 	isActive = _isAcvtive;
 	posx = pos.x;
 	posy = pos.y;
-	type = "Ground";
+	type = "Ground"; 
 	if (_type == 1) {
 		type += "Trapped";
 	}

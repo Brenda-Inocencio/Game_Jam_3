@@ -12,7 +12,8 @@
 #define FALL_SPEED 100.f
 
 Player::Player() : width(64.f), height(64.f), posx(150.f), posy(800.f), speed(0.f), jumpingTime(0.f),
-dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(false) {
+dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(false), deathCount(0), 
+changeLevel(false) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
 	rect.setFillColor(sf::Color::Yellow);
@@ -21,8 +22,6 @@ dir(1), state(IDLE), isJump(false), isAlive(true), moveLeft(false), moveRight(fa
 	sprite = new sf::Sprite(*tex);
 	sprite->setScale(sf::Vector2f(0.65, 0.65));
 	sprite->setPosition(sf::Vector2f(posx - 10, posy - 10));
-
-
 }
 
 Player::~Player() {
@@ -204,10 +203,6 @@ void Player::Update(float dt, float now, std::vector<sf::Event>& events, std::ve
 
 	VoidCollide(traps);
 
-	/*if (now - vulnerableTime >= TIME_INVULNERABLE) {
-		isVulnerable = true;
-	}*/
-
 	state = newState;
 }
 
@@ -239,13 +234,16 @@ void Player::Fall(float dt, float now, State& newState, std::vector<Trap*>& trap
 
 bool Player::DownCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
-		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive) ||
-			(t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1")) {
+		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive ||
+			t->GetType() == "Egg") || (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1")) {
 			if (posy + height >= t->GetPosY() && posy + height <= t->GetBottomY()) {
 				if (posx <= t->GetRightX() && posx >= t->GetPosX() ||
 					posx + width >= t->GetPosX() && posx + width <= t->GetRightX()) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
+					}
+					else if (t->GetType() == "Egg") {
+						ChangeLevel(traps);
 					}
 					else {
 						posy = t->GetPosY() - height;
@@ -260,13 +258,16 @@ bool Player::DownCollide(std::vector<Trap*>& traps) {
 
 void Player::SideCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
-		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive) ||
-			(t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1")) {
+		if (t->GetType() == "GroundUntrapped" || (t->GetType() == "GroundTrapped" && !t->isActive || 
+			t->GetType() == "Egg") || (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1")) {
 			if (speed > 0) {
 				if (posx + width >= t->GetPosX() && posx + width <= t->GetRightX() &&
 					posy >= t->GetPosY() && posy + height <= t->GetBottomY()) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
+					}
+					else if (t->GetType() == "Egg") {
+						ChangeLevel(traps);
 					}
 					else {
 						posx = t->GetPosX() - width - 2;
@@ -278,6 +279,9 @@ void Player::SideCollide(std::vector<Trap*>& traps) {
 					posy >= t->GetPosY() && posy + height <= t->GetBottomY()) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
+					}
+					else if (t->GetType() == "Egg") {
+						ChangeLevel(traps);
 					}
 					else {
 						posx = t->GetRightX() + 1;
@@ -296,12 +300,15 @@ void Player::SideCollide(std::vector<Trap*>& traps) {
 
 bool Player::UpCollide(std::vector<Trap*>& traps) {
 	for (auto* t : traps) {
-		if (t->GetType() == "GroundUntrapped" ||
+		if (t->GetType() == "GroundUntrapped" || t->GetType() == "Egg" ||
 			(t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1")) {
 			if ((t->GetBottomY() >= posy && t->GetPosY() <= posy)) {
 				if ((t->GetPosX() >= posx && t->GetPosX() <= posx + width)) {
 					if (t->GetType() == "TrapTrigger0" || t->GetType() == "TrapTrigger1") {
 						TrapCollide(traps, t);
+					}
+					else if (t->GetType() == "Egg") {
+						ChangeLevel(traps);
 					}
 					else {
 						return true;
@@ -315,7 +322,7 @@ bool Player::UpCollide(std::vector<Trap*>& traps) {
 
 void Player::VoidCollide(std::vector<Trap*>& traps) {
 	if (posy >= 1080) {
-		isAlive = false;
+		Respawn(traps);
 	}
 }
 
@@ -337,5 +344,20 @@ void Player::TrapCollide(std::vector<Trap*>& traps, Trap* t) {
 		}
 	}
 	t->isActive = true;
+}
+
+void Player::ChangeLevel(std::vector<Trap*>& traps) {
+	changeLevel = true;
+}
+
+void Player::Respawn(std::vector<Trap*>& traps) {
+	for (auto* rez : traps) {
+		if (rez->GetType() == "Spawn") {
+			posx = 150;
+			posx = 900;
+			break;
+		}
+	}
+	deathCount += 1;
 }
 
