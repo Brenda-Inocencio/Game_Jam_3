@@ -1,6 +1,5 @@
 #include "Trap.h"
 
-
 Trap::Trap() : posx(0.f), posy(0.f), width(128.f), height(90), type("Trap"), isActive(false) {
 	rect = sf::RectangleShape(sf::Vector2f(width, height));
 	rect.setPosition(sf::Vector2f(posx, posy));
@@ -20,6 +19,7 @@ Trap::~Trap() {}
 void Trap::Render(sf::RenderWindow& window) {
 	window.draw(rect);
 	window.draw(*sprite);
+}
 
 void Trap::Update() {
 	if (type == "GroundTrapped") {
