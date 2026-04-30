@@ -5,8 +5,8 @@ posCharacter(0), lineCharacter(0), type("Trap") {
     rect = sf::RectangleShape(sf::Vector2f(width, height));
     rect.setPosition(sf::Vector2f(posx, posy));
     rect.setFillColor(sf::Color::Transparent);
-    rect.setOutlineColor(sf::Color::Blue);
-    rect.setOutlineThickness(2.f);
+   /* rect.setOutlineColor(sf::Color::Blue);
+    rect.setOutlineThickness(2.f);*/
 
     tex = new sf::Texture("assets/pick.png");
     sprite = new sf::Sprite(*tex);
@@ -119,7 +119,7 @@ Pike::Pike(sf::Vector2f pos, int _type, bool _isActive, int i, int ln) {
     rect.setSize(sf::Vector2f(width, height));
     rect.setPosition(sf::Vector2f(posx, posy));
     sprite->setScale(sf::Vector2f(0.65f, 0.65f));
-    sprite->setPosition(sf::Vector2f(pos.x, pos.y));
+    sprite->setPosition(sf::Vector2f(posx, posy));
 }
 
 void Pike::Update(float now) {
@@ -172,9 +172,8 @@ TrapTrigger::TrapTrigger(sf::Vector2f pos, int trap, int i, int ln) {
     height = 90.f;
     type = "TrapTrigger";
     rect.setSize(sf::Vector2f(width, height));
-    rect.setFillColor(sf::Color::Transparent);
-    rect.setOutlineColor(sf::Color::Magenta);
-    rect.setOutlineThickness(2.f);
+    //rect.setOutlineColor(sf::Color::Magenta);
+    //rect.setOutlineThickness(2.f);
     rect.setPosition(pos);
     switch (trap) {
     case 0:

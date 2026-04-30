@@ -47,7 +47,7 @@ void Player::Render(sf::RenderWindow& window) {
     hitbox.setFillColor(sf::Color::Transparent);
     hitbox.setOutlineColor(sf::Color::Green);
     hitbox.setOutlineThickness(2.f);
-    window.draw(hitbox);
+    //window.draw(hitbox);
 #endif
 }
 
@@ -363,7 +363,7 @@ void Player::TrapCollide(std::vector<Trap*> traps, Trap* t, float now) {
             if (t1->GetType() == "Pike") {
                 t1->posx += 64.f;
                 t1->rect.setPosition(sf::Vector2f(t1->posx, t1->posy));
-                t1->sprite->setPosition(sf::Vector2f(t1->posx - 50.f, t1->posy - 45.f));
+                t1->sprite->setPosition(sf::Vector2f(t1->posx , t1->posy));
                 pikeFound = true;
             }
         }
@@ -371,17 +371,22 @@ void Player::TrapCollide(std::vector<Trap*> traps, Trap* t, float now) {
 
     if (!pikeFound) {
         for (auto* t1 : traps) {
-            if (t1->GetCharacterIdx() != targetCol) continue;
             if (t1->GetType() != "GroundTrapped") continue;
 
             if (t->GetType() == "TrapTrigger0") {
-                t1->isActive = !t1->isActive;
+                if ((triggerCol == t1->GetCharacterIdx() || triggerCol + 1 == t1->GetCharacterIdx()) && t->GetLineIdx() <= t1->GetLineIdx()) {
+                    t1->isActive = !t1->isActive;
+                }
             }
             else if (t->GetType() == "TrapTrigger1") {
-                t1->isActive = true;
+                if (triggerCol + 1 == t1->GetCharacterIdx() && t->GetLineIdx() <= t1->GetLineIdx()) {
+                    t1->isActive = true;
+                }
             }
             else if (t->GetType() == "TrapTrigger2") {
-                t1->isActive = false;
+                if (triggerCol + 1 == t1->GetCharacterIdx() && t->GetLineIdx() <= t1->GetLineIdx()) {
+                    t1->isActive = false;
+                }
                 t1->timedStart = now;
             }
         }
