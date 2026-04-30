@@ -1,29 +1,32 @@
 #pragma once
 
-#include <vector>
 #include <SFML/Graphics.hpp>
+#include <vector>
+#include <string>
 #include <fstream>
 #include <iostream>
 
-struct Texture;
-struct Sprite;
 class Trap;
 
 class Level {
-	std::string prevLevel;
-	std::string nextLevel;
-	std::string path;
-
 public:
-	std::vector<Trap*> traps;
+    Level();
+    Level(std::string path1, bool last = false);
+    ~Level();
 
-	Level();
-	Level(std::string path1);
-	~Level();
-	void Render(sf::RenderWindow& window);
-	void Update();
-	void Reset();
+    void Render(sf::RenderWindow& window);
+    void Update(float now);
+    void Reset();
 
-	inline std::string GetPrevLevel() { return prevLevel; }
-	inline std::string GetNextLevel() { return nextLevel; }
+    std::vector<Trap*>& GetTraps() { return traps; }
+
+    bool HasActiveEgg() const;
+    bool IsLast() const { return isLast; }
+
+private:
+    std::vector<Trap*> traps;
+    std::string nextLevel;
+    std::string prevLevel;
+    std::string path;
+    bool isLast;
 };

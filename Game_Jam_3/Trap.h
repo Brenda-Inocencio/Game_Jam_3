@@ -1,71 +1,75 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
-struct Texture;
-struct Sprite;
+#include <string>
 
 class Trap {
-protected:
-	float posx;
-	float posy;
-	int posCharacter;
-	int lineCharacter;
-	float width;
-	float height;
-	std::string type;
-	sf::RectangleShape rect;
-
-	sf::Texture* tex;
-	sf::Sprite* sprite;
 public:
-	bool isActive;
-public:
-	Trap();
-	virtual ~Trap();
+    Trap();
+    virtual ~Trap();
 
-	void Render(sf::RenderWindow& window);
-	void Update();
+    virtual void Render(sf::RenderWindow& window);
+    virtual void Update(float now);
 
-	inline float GetPosX() { return posx; }
-	inline float GetRightX() { return posx + width; }
-	inline float GetPosY() { return posy; }
-	inline float GetBottomY() { return posy + height; }
-	inline int GetCharacterIdx() { return posCharacter; }
-	inline int GetCharacterLine() { return lineCharacter; }
-	inline std::string GetType() { return type; }
+    float GetPosX() const { return posx; }
+    float GetPosY() const { return posy; }
+    float GetRightX() const { return posx + width; }
+    float GetBottomY() const { return posy + height; }
+
+    std::string GetType() const { return type; }
+
+    int GetCharacterIdx() const { return posCharacter; }
+    int GetLineIdx() const { return lineCharacter; }
+
+    float posx;
+    float posy;
+    float width;
+    float height;
+    bool isActive;
+    float timedStart;
+
+    int posCharacter;
+    int lineCharacter;
+
+    std::string type;
+
+    sf::RectangleShape rect;
+    sf::Texture* tex;
+    sf::Sprite* sprite;
 };
 
 class Ground : public Trap {
 public:
-	Ground(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln);
-	~Ground() {};
+    Ground(sf::Vector2f pos, int _type, bool _isActive, int i, int ln);
+    virtual void Update(float now);
 };
 
 class Egg : public Trap {
 public:
-	Egg(sf::Vector2f(pos), int i, int ln);
-	~Egg() {};
+    Egg(sf::Vector2f pos, int i, int ln);
+    virtual void Update(float now);
 };
 
 class Pike : public Trap {
 public:
-	Pike(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln);
-	~Pike() {};
+    Pike(sf::Vector2f pos, int _type, bool _isActive, int i, int ln);
+    virtual void Update(float now);
 };
 
 class Tramplin : public Trap {
 public:
-	Tramplin(sf::Vector2f(pos), int _type, bool _isAcvtive, int i, int ln);
-	~Tramplin() {};
+    Tramplin(sf::Vector2f pos, int _type, bool _isActive, int i, int ln);
+    virtual void Update(float now);
 };
 
 class Spawn : public Trap {
 public:
-	Spawn(sf::Vector2f(pos), int i, int ln);
-	~Spawn() {};
+    Spawn(sf::Vector2f pos, int i, int ln);
+    virtual void Update(float now);
 };
 
 class TrapTrigger : public Trap {
 public:
-	TrapTrigger(sf::Vector2f(pos), int trap, int i, int ln);
-	~TrapTrigger() {};
+    TrapTrigger(sf::Vector2f pos, int trap, int i, int ln);
+    virtual void Update(float now);
 };
